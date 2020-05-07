@@ -29,7 +29,14 @@
                             <outlet property="delegate" destination="EM2-go-bQE" id="qcr-pu-tFJ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="TodoEv" id="BLS-Sd-EqG"/>
+                    <navigationItem key="navigationItem" title="TodoEv" id="BLS-Sd-EqG">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="GLH-At-6tV">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="addButtonPressed:" destination="EM2-go-bQE" id="V9h-cb-iGj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="laY-JJ-9Gn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

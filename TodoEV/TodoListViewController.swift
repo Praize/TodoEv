@@ -8,9 +8,9 @@
 
 import UIKit
 
-class TodoListViewController: UITableViewController {
+class TodoListViewController: UITableViewController ,UITextFieldDelegate{
 
-    let itemArray = ["orange","apple","bread","milk"]
+    var itemArray = ["orange","apple","bread","milk"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +43,32 @@ class TodoListViewController: UITableViewController {
         
         tableView.deselectRow(at:indexPath , animated: true)
     }
+    //MARK: - nEW items
+    @IBAction func addButtonPressed(_ sender: Any) {
+        var textField = UITextField()
+        
+        //add alert
+        let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
+       
+        
+        //add action
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            //whatr happens when pressed
+            self.itemArray.append(textField.text!)
+            self.tableView.reloadData()
+        }
+        
+        //add textfieled
+        alert.addTextField { (alertTextField) in
+             alertTextField.placeholder = "create new item"
+            textField = alertTextField
+        }
+        
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
 
 }
 
