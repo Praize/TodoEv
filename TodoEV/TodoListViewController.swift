@@ -11,10 +11,18 @@ import UIKit
 class TodoListViewController: UITableViewController ,UITextFieldDelegate{
 
     var itemArray = ["orange","apple","bread","milk"]
+    //userDefaults
+    var defaults = UserDefaults.standard
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        //finishing touches on userDefaults
+        if let items = defaults.array(forKey: "TodoListArray") as? [String]{
+            itemArray = items
+        }
+        
     }
     //MARK: - METHODS FOR DATASOURCE
 
@@ -24,6 +32,8 @@ class TodoListViewController: UITableViewController ,UITextFieldDelegate{
        
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
       let cell = tableView.dequeueReusableCell(withIdentifier: "TodoItemCell", for: indexPath)
+        
+      
       cell.textLabel?.text = itemArray[indexPath.row]
        
         
@@ -55,6 +65,9 @@ class TodoListViewController: UITableViewController ,UITextFieldDelegate{
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             //whatr happens when pressed
             self.itemArray.append(textField.text!)
+            //userDefauits in action "save data inside app"
+            self.defaults.setValue(self.itemArray, forKey: "TodoListArray")
+            
             self.tableView.reloadData()
         }
         

@@ -12,12 +12,28 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
-
+   //1
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        //print("didFinishLaunchingWithOptions")
+        print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)
+        
         return true
     }
+    //2
+    func applicationWillResignActive(_ application: UIApplication) {
+        
+    }
+    //3
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        print("applicationDidEnterBackground")
+    }
+    //4
+    func applicationWillTerminate(_ application: UIApplication) {
+        print("applicationWillTerminate")
 
+    }
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
