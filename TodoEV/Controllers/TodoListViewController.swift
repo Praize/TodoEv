@@ -13,32 +13,40 @@ class TodoListViewController: UITableViewController ,UITextFieldDelegate{
     //var itemArray = ["orange","apple","bread","milk","orange","app1le","breqad","miwlk","orrange","apyple","breasd","maailk","orantge","apyple","brtread","mierlk","oruiange","atttpple","breanbd","mivlk","ocrange","apploe","bredqbad","milkeee"]
     var itemArray = [Item]()
     
+    //path
+    let datafilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    
+    
     //userDefaults
-    var defaults = UserDefaults.standard
+    //var defaults = UserDefaults.standard
+    
+    //Endcoder
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        let newItem = Item()
-        newItem.title = "mike"
-        itemArray.append(newItem)
+        print(datafilePath!)
         
-        let newItem1 = Item()
-        newItem1.title = "mike1"
-        itemArray.append(newItem1)
-        
-        let newItem2 = Item()
-        newItem2.title = "mike2"
-        itemArray.append(newItem2)
+//        let newItem = Item()
+//        newItem.title = "mike"
+//        itemArray.append(newItem)
+//
+//        let newItem1 = Item()
+//        newItem1.title = "mike1"
+//        itemArray.append(newItem1)
+//
+//        let newItem2 = Item()
+//        newItem2.title = "mike2"
+//        itemArray.append(newItem2)
         
         //userDefaults
-        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
-            itemArray = items
-        }
+//        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
+//            itemArray = items
+//        }
        
-        
+        loadItems()
     }
     //MARK: - METHODS FOR DATASOURCE
 
@@ -66,6 +74,8 @@ class TodoListViewController: UITableViewController ,UITextFieldDelegate{
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        
+        saveItems()
 //        if itemArray[indexPath.row].done == false {
 //            itemArray[indexPath.row].done = true
 //        }
@@ -99,7 +109,8 @@ class TodoListViewController: UITableViewController ,UITextFieldDelegate{
        
             self.itemArray.append(newItem)
             //user defaults used
-            self.defaults.set(self.itemArray, forKey: "TodoListArray")
+            //self.defaults.set(self.itemArray, forKey: "TodoListArray")
+            self.saveItems()
             
             self.tableView.reloadData()
         }
@@ -113,8 +124,31 @@ class TodoListViewController: UITableViewController ,UITextFieldDelegate{
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
-    
-    
-
+    func saveItems(){
+        
+        //Endcoder
+        let encoder = PropertyListEncoder()
+        do{
+            let data = try encoder.encode(itemArray)
+            try data.write(to: datafilePath!)
+        }
+        catch{
+            print("Erro encoding item array \(error)")
+        }
+        
+    }
+    func loadItems(){
+        //Endcoder
+        if let data = try? Data(contentsOf: datafilePath!){
+            let decoder = PropertyListDecoder()
+            do{
+                itemArray = try decoder.decode([Item].self, from: data)
+            }
+            catch{
+                print("Erro decoding item array \(error)")
+            }
+            
+        }
+    }
 }
 
